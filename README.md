@@ -1,24 +1,20 @@
 # README
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+In console
 
-Things you may want to cover:
+```
+User.find_or_create_by(email: 'asd@asd.asd') do |user|
+  user.password = user.password_confirmation = 'asdasd'
+end
 
-* Ruby version
+app = Doorkeeper::Application.find_or_create_by(name: "Android client", redirect_uri: "", scopes: "")
 
-* System dependencies
+client = OAuth2::Client.new(app.uid, app.secret, site: 'http://localhost:3002/oauth/token')
 
-* Configuration
+token = client.password.get_token('asd@asd.asd','asdasd')
 
-* Database creation
+response = token.get('/api/bookmarks')
 
-* Database initialization
-
-* How to run the test suite
-
-* Services (job queues, cache servers, search engines, etc.)
-
-* Deployment instructions
-
-* ...
+JSON.parse response.body
+# => {'bookmarks'=>[]}
+```
